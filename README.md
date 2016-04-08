@@ -1,0 +1,2 @@
+## LinkMage ##
+Basic linkmage website.
