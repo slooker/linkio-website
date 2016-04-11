@@ -12,6 +12,7 @@ services:
   - docker
 
 before_install:
+  - npm install -g mocha
   - docker build -t slooker/linkmage .
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push slooker/linkmage
