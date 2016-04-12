@@ -25,7 +25,7 @@ deploy:
   region: us-west-2
   app: LinkMageTest
   env: LinkMage
-  bucket_name: LinkMage
+  bucket_name: linkmage
   on:
     repo: slooker/linkmage-website
     branch: master
