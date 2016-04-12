@@ -20,6 +20,10 @@ app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
 
+app.get('/test', function(req, res) {
+  res.send("Test worked.");
+})
+
 // POST /login gets urlencoded bodies
 app.post('/send-email', function (req, res) {
   console.log(req.body);
