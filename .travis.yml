@@ -27,7 +27,7 @@ deploy:
   env: LinkMage
   bucket_name: LinkMage
   on:
-    repo: linkmage-website
+    repo: slooker/linkmage-website
     branch: master
 
 # deploy:
