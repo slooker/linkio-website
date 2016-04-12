@@ -1,14 +1,12 @@
-language: node_js
-node_js:
-- '5'
-- '5.1'
-- '4'
-- '4.2'
-- '4.1'
-- '4.0'
 sudo: required
+
+language: node_js
+
 services:
 - docker
+node_js:
+- '5'
+- '4'
 before_install:
 - npm install -g mocha
 - docker build -t slooker/linkmage .
@@ -18,6 +16,20 @@ before_install:
 # before_deploy:
 # - echo "Writing Dockerrun.aws.json"
 
+deploy:
+  provider: elasticbeanstalk
+  access_key_id:
+    secure: kFL4WgcPc4/cLIhZpym1dZfl7sdP6SjgFZ0MaqykWjJFwcxlZkOk0W5k09jiX0/OT650HGhSL6D9uPfTBmocXObzNfMFq+noR0Dh/h7XRQkEG1JO8++ISUvTGu5UbLgSYGfDBC+VtIg5KdvBGp+5KIgpgP/yWhnF0UuB9SR7p3GQ4ehaZfblx53C4NB99D12tn9NuwU7wSJgozMN0mt/mPkApbTuD4nBL7xz418WFR6gi9tDwI9i/9YfyHpNyqvR4Omh/HWRgiPnO0PRzxs1lfIVM+H3JjQDL1eTw+H7LRCXcpJ3JiphbpxfTxsCAIWALB2kiUsp8gmQqIWjm+o0b1zXcAEp8mxYf4Xxv4MOA20PR/tNsrAMU3TRibypPbfIuJ8OimsT75g/8dRI8L1/FNxWCe7RDHf+RcvTX1xeWCOPDDOdxeFXIbU6jyFI6c1c5odXMbZzTo95uZzgzxWB4cblR2vCGNPkKUspFP0bTzxKaxFOW64/pT3gRbuuwOrQZGJmyDPEB1FYLeOxQ3R3KllG46pt0MHJjBdkPPwmvOE4sW40uDPX6XhxRbXniIVYTv1l2B0cFktFSKNIz4Xeg4vGR8ECYTaFgFQ7T4LAjOeanFziAnJ1rpLwVgt+kWbGcTtEAiPWtQ3PHVhufoUNRn0lLUFxw9E2RkrG6Fv4LBM=
+  secret_access_key:
+    secure: qHRum7946G57dwYk1Hw/8SUz9Fejew0a4b5SgR7kybLDnuXBCy0ijeOCDX8/xcYTkQ5/ANqODOs0WwflYzRzYZhP/6wp7btHqw3qsgk/OSE7+MOOnAwu1dre9xiQZG5yHgEeOD6B4ZXISo8/BUtGe79+7QXLAbulBbaml1f/E56SvOLxXg1U49UfwnuZsviY2Ulmv9TikUMcScgzhvkXtgFH1OJAg5//HPnlpdmLXYMuzZTTAxEilkr8F2TJX9N9QTrBeqZFJY2aPrZjIAAEhL3FHsvDNVi2oZv4iyBqsUtbxLdq04rbuQiUv/1HRqpgFuaVuoIks+sOmg33mHSR26X5K/oyDyH4Cbx/dlH6Dya6EJfrziu9fYwn+PzztzfE34YwDdxhJFeZRNatvodk9o/Bg5JMCzodNniLdIrckx02ap5Mh3V8l/lIeY3CAqDqvjd2oj0IgXZibNX/XnE2dFIAKgF9/dDv3Kz+LxP6dlVsdO8W1QN4vUfmHxtEt4CIQq+AkR172ltgVR1NtoqrvSxZ6QtWmV1oJ8/L2ONVITFHFlBk95kE1/oajwosQdYoAGFdi5val+oxYM+2r2rIJjZAMd6dj6R2RNLwmk7eYIQ22AXdr6RdghvnkkRuTOH6yuX/f7Qrsdjx+HliOXO0gVi8Q5Z3uyyBAHPDnk6XgVY=
+  region: us-west-2
+  app: LinkMageTest
+  env: LinkMage
+  bucket_name: LinkMage
+  on:
+    repo: linkmage-website
+    branch: master
+
 # deploy:
 #   matrix:
 #   - provider: s3
@@ -26,14 +38,14 @@ before_install:
 #     secret_access_key: "YOUR AWS SECRET KEY"
 #     key: latest.zip
 #     application: LinkMage
-#   - provider: codedeploy
-#     access_key_id: "YOUR AWS ACCESS KEY"
-#     secret_access_key: "YOUR AWS SECRET KEY"
-#     bucket: linkmage
-#     key: latest.zip
-#     application: LinkMage
-#     deployment_group: LinkMage
-#   secret_access_key:
-#     secure: qHRum7946G57dwYk1Hw/8SUz9Fejew0a4b5SgR7kybLDnuXBCy0ijeOCDX8/xcYTkQ5/ANqODOs0WwflYzRzYZhP/6wp7btHqw3qsgk/OSE7+MOOnAwu1dre9xiQZG5yHgEeOD6B4ZXISo8/BUtGe79+7QXLAbulBbaml1f/E56SvOLxXg1U49UfwnuZsviY2Ulmv9TikUMcScgzhvkXtgFH1OJAg5//HPnlpdmLXYMuzZTTAxEilkr8F2TJX9N9QTrBeqZFJY2aPrZjIAAEhL3FHsvDNVi2oZv4iyBqsUtbxLdq04rbuQiUv/1HRqpgFuaVuoIks+sOmg33mHSR26X5K/oyDyH4Cbx/dlH6Dya6EJfrziu9fYwn+PzztzfE34YwDdxhJFeZRNatvodk9o/Bg5JMCzodNniLdIrckx02ap5Mh3V8l/lIeY3CAqDqvjd2oj0IgXZibNX/XnE2dFIAKgF9/dDv3Kz+LxP6dlVsdO8W1QN4vUfmHxtEt4CIQq+AkR172ltgVR1NtoqrvSxZ6QtWmV1oJ8/L2ONVITFHFlBk95kE1/oajwosQdYoAGFdi5val+oxYM+2r2rIJjZAMd6dj6R2RNLwmk7eYIQ22AXdr6RdghvnkkRuTOH6yuX/f7Qrsdjx+HliOXO0gVi8Q5Z3uyyBAHPDnk6XgVY=
-#   access_key_id:
-#     secure: kFL4WgcPc4/cLIhZpym1dZfl7sdP6SjgFZ0MaqykWjJFwcxlZkOk0W5k09jiX0/OT650HGhSL6D9uPfTBmocXObzNfMFq+noR0Dh/h7XRQkEG1JO8++ISUvTGu5UbLgSYGfDBC+VtIg5KdvBGp+5KIgpgP/yWhnF0UuB9SR7p3GQ4ehaZfblx53C4NB99D12tn9NuwU7wSJgozMN0mt/mPkApbTuD4nBL7xz418WFR6gi9tDwI9i/9YfyHpNyqvR4Omh/HWRgiPnO0PRzxs1lfIVM+H3JjQDL1eTw+H7LRCXcpJ3JiphbpxfTxsCAIWALB2kiUsp8gmQqIWjm+o0b1zXcAEp8mxYf4Xxv4MOA20PR/tNsrAMU3TRibypPbfIuJ8OimsT75g/8dRI8L1/FNxWCe7RDHf+RcvTX1xeWCOPDDOdxeFXIbU6jyFI6c1c5odXMbZzTo95uZzgzxWB4cblR2vCGNPkKUspFP0bTzxKaxFOW64/pT3gRbuuwOrQZGJmyDPEB1FYLeOxQ3R3KllG46pt0MHJjBdkPPwmvOE4sW40uDPX6XhxRbXniIVYTv1l2B0cFktFSKNIz4Xeg4vGR8ECYTaFgFQ7T4LAjOeanFziAnJ1rpLwVgt+kWbGcTtEAiPWtQ3PHVhufoUNRn0lLUFxw9E2RkrG6Fv4LBM=
+  # - provider: codedeploy
+  #   access_key_id: "YOUR AWS ACCESS KEY"
+  #   secret_access_key: "YOUR AWS SECRET KEY"
+  #   bucket: linkmage
+  #   key: latest.zip
+  #   application: LinkMage
+  #   deployment_group: LinkMage
+  # secret_access_key:
+  #   secure: qHRum7946G57dwYk1Hw/8SUz9Fejew0a4b5SgR7kybLDnuXBCy0ijeOCDX8/xcYTkQ5/ANqODOs0WwflYzRzYZhP/6wp7btHqw3qsgk/OSE7+MOOnAwu1dre9xiQZG5yHgEeOD6B4ZXISo8/BUtGe79+7QXLAbulBbaml1f/E56SvOLxXg1U49UfwnuZsviY2Ulmv9TikUMcScgzhvkXtgFH1OJAg5//HPnlpdmLXYMuzZTTAxEilkr8F2TJX9N9QTrBeqZFJY2aPrZjIAAEhL3FHsvDNVi2oZv4iyBqsUtbxLdq04rbuQiUv/1HRqpgFuaVuoIks+sOmg33mHSR26X5K/oyDyH4Cbx/dlH6Dya6EJfrziu9fYwn+PzztzfE34YwDdxhJFeZRNatvodk9o/Bg5JMCzodNniLdIrckx02ap5Mh3V8l/lIeY3CAqDqvjd2oj0IgXZibNX/XnE2dFIAKgF9/dDv3Kz+LxP6dlVsdO8W1QN4vUfmHxtEt4CIQq+AkR172ltgVR1NtoqrvSxZ6QtWmV1oJ8/L2ONVITFHFlBk95kE1/oajwosQdYoAGFdi5val+oxYM+2r2rIJjZAMd6dj6R2RNLwmk7eYIQ22AXdr6RdghvnkkRuTOH6yuX/f7Qrsdjx+HliOXO0gVi8Q5Z3uyyBAHPDnk6XgVY=
+  # access_key_id:
+  #   secure: kFL4WgcPc4/cLIhZpym1dZfl7sdP6SjgFZ0MaqykWjJFwcxlZkOk0W5k09jiX0/OT650HGhSL6D9uPfTBmocXObzNfMFq+noR0Dh/h7XRQkEG1JO8++ISUvTGu5UbLgSYGfDBC+VtIg5KdvBGp+5KIgpgP/yWhnF0UuB9SR7p3GQ4ehaZfblx53C4NB99D12tn9NuwU7wSJgozMN0mt/mPkApbTuD4nBL7xz418WFR6gi9tDwI9i/9YfyHpNyqvR4Omh/HWRgiPnO0PRzxs1lfIVM+H3JjQDL1eTw+H7LRCXcpJ3JiphbpxfTxsCAIWALB2kiUsp8gmQqIWjm+o0b1zXcAEp8mxYf4Xxv4MOA20PR/tNsrAMU3TRibypPbfIuJ8OimsT75g/8dRI8L1/FNxWCe7RDHf+RcvTX1xeWCOPDDOdxeFXIbU6jyFI6c1c5odXMbZzTo95uZzgzxWB4cblR2vCGNPkKUspFP0bTzxKaxFOW64/pT3gRbuuwOrQZGJmyDPEB1FYLeOxQ3R3KllG46pt0MHJjBdkPPwmvOE4sW40uDPX6XhxRbXniIVYTv1l2B0cFktFSKNIz4Xeg4vGR8ECYTaFgFQ7T4LAjOeanFziAnJ1rpLwVgt+kWbGcTtEAiPWtQ3PHVhufoUNRn0lLUFxw9E2RkrG6Fv4LBM=
