@@ -5,8 +5,8 @@ language: node_js
 services:
 - docker
 node_js:
-- '5'
-- '4'
+- '7'
+- '6'
 before_install:
 - npm install -g mocha
 - docker build -t slooker/linkmage .
